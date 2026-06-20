@@ -1,0 +1,65 @@
+---
+title: "Kalman Filter 其實就是遞迴最小平方法"
+author: "盧晉偉"
+date: "2026-06-20"
+categories: [統計, 狀態空間模型, 最佳化]
+format:
+  html:
+    toc: true
+    html-math-method: mathjax
+---
+
+## 先把題目鋪開
+
+<!-- 一兩句講清楚「我在解什麼、為什麼值得做」：
+     靜態 OLS 假設 β 從頭到尾不變，但兩支資產的關係會隨時間走動。
+     先給方向盤，再讓推導去跑。 -->
+
+## 從靜態 OLS 出發
+
+最小平方法的 normal equation：
+
+$$
+\hat{\beta} = (X^\top X)^{-1} X^\top y
+$$
+
+<!-- 你的話：這給的是一個「對整段歷史一次到位、且固定」的 β。 -->
+
+## 讓 β 隨時間走動：狀態空間的設定
+
+把固定的 $\beta$ 換成會演化的隱藏狀態 $\beta_t$：
+
+$$
+\begin{aligned}
+y_t &= x_t^\top \beta_t + \varepsilon_t, & \varepsilon_t &\sim \mathcal{N}(0,\,R) \\
+\beta_t &= \beta_{t-1} + \eta_t,        & \eta_t        &\sim \mathcal{N}(0,\,Q)
+\end{aligned}
+$$
+
+<!-- 解釋 Q（允許 β 動多少）和 R（觀測雜訊）各自扮演什麼角色。 -->
+
+## 遞迴更新式
+
+<!-- predict 一步、update 一步，把 Kalman gain 寫出來。
+     重點是讓讀者看到「每來一筆新資料，就更新一次對 β 的估計」。 -->
+
+## 看出特例：OLS 是 $Q \to 0$ 的 Kalman
+
+<!-- 這篇的「啊哈」：當 Q → 0，β 不再被允許移動，
+     遞迴最小平方就退化回那個靜態的 (XᵀX)⁻¹Xᵀy。
+     同一件事，兩個極端。 -->
+
+## 一個小例子（選配）
+
+下面是 pairs trading 裡用 Kalman 估「時變 hedge ratio」的骨架（先當示意，之後想真的跑再說）：
+
+```python
+# 用 Kalman filter 遞迴更新 hedge ratio beta_t
+# state = beta_t, observation = y_t = beta_t * x_t + noise
+# ... 你的論文程式碼可以接進來 ...
+```
+
+## 收尾
+
+<!-- 接回你的論文，以及這個「讓關係自己長出來」的視角
+     如何延伸到 optimal transport / flow matching。 -->
