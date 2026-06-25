@@ -9,7 +9,7 @@
 <meta name="dcterms.date" content="2026-06-25">
 <meta name="description" content="肺結節偵測是肺癌早篩的關鍵，但小結節只佔影像裡幾個像素，資料集又小又標註寬鬆。這篇記錄我用 YOLOv11 處理「小資料 + 小目標」雙重困境的過程，最後實驗結果是 yolo11n 的效果最好，但仍受限於小結節資料過少的限制。">
 
-<title>當最小的模型反而最準：在 280 張影像上偵測肺結節 – CHIN-WEI, LU</title>
+<title>小模型在小資料集更優秀：在 280 張影像上偵測肺結節 – CHIN-WEI, LU</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -114,7 +114,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">當最小的模型反而最準：在 280 張影像上偵測肺結節</h1>
+      <h1 class="title">小模型在小資料集更優秀：在 280 張影像上偵測肺結節</h1>
                   <div>
         <div class="description">
           肺結節偵測是肺癌早篩的關鍵，但小結節只佔影像裡幾個像素，資料集又小又標註寬鬆。這篇記錄我用 YOLOv11 處理「小資料 + 小目標」雙重困境的過程，最後實驗結果是 yolo11n 的效果最好，但仍受限於小結節資料過少的限制。
@@ -152,7 +152,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#針對小目標做的調整" id="toc-針對小目標做的調整" class="nav-link active" data-scroll-target="#針對小目標做的調整">針對「小目標」做的調整</a>
+  <li><a href="#肺結節早期篩檢" id="toc-肺結節早期篩檢" class="nav-link active" data-scroll-target="#肺結節早期篩檢">肺結節早期篩檢</a>
+  <ul class="collapse">
+  <li><a href="#針對小目標做的調整" id="toc-針對小目標做的調整" class="nav-link" data-scroll-target="#針對小目標做的調整">針對「小目標」做的調整</a>
   <ul class="collapse">
   <li><a href="#把解析度放大" id="toc-把解析度放大" class="nav-link" data-scroll-target="#把解析度放大">把解析度放大</a></li>
   <li><a href="#學習率排程與正則化防止過擬合" id="toc-學習率排程與正則化防止過擬合" class="nav-link" data-scroll-target="#學習率排程與正則化防止過擬合">學習率排程與正則化，防止過擬合</a></li>
@@ -165,6 +167,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#detection-results" id="toc-detection-results" class="nav-link" data-scroll-target="#detection-results">Detection Results</a></li>
   </ul></li>
   <li><a href="#限制與後續方向" id="toc-限制與後續方向" class="nav-link" data-scroll-target="#限制與後續方向">限制與後續方向</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -175,7 +178,8 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>ㄨ</p>
+<section id="肺結節早期篩檢" class="level1">
+<h1>肺結節早期篩檢</h1>
 <p>肺結節偵測是肺癌早期篩檢的關鍵一步——能不能在小病灶長大之前先把它找出來，往往就是預後的差別。但這件事在技術上有兩個疊在一起的難點，讓它不只是「再訓練一個 YOLO」這麼簡單。</p>
 <p>第一個難點是<strong>目標太小</strong>。結節依大小分兩類，其中 ≤3mm 的小結節在 416×416 的影像裡只佔幾個像素，經過偵測網路的下採樣之後，可能只剩下特徵圖上的一兩個格點。模型很難在這麼稀疏的資訊裡定位。</p>
 <p>第二個難點是<strong>資料又小又寬鬆</strong>。整個資料集只有約 280 張影像（訓練 239、驗證 41），而且小結節的樣本數本來就少——驗證集裡的小結節只有 8 個。另外，這份資料集的標註框得相當寬鬆，沒有精準貼合腫瘤邊界。</p>
@@ -358,6 +362,7 @@ ul.task-list li input[type="checkbox"] {
 <p>整體來說，這個模型在應用方向上是合理的，但小結節這塊我還沒解完——這也是我覺得這個專案最有意思的地方：它讓我看到在小資料的限制下，模型選擇、指標解讀、實務取捨各自該怎麼權衡，而不是把一個跑得動的 baseline 當成終點。</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
