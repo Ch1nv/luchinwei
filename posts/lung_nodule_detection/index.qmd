@@ -1,10 +1,14 @@
 ---
 title: "小模型在小資料集更優秀：在 280 張影像上偵測肺結節"
+author: "盧晉偉"
 description: "肺結節偵測是肺癌早篩的關鍵，但小結節只佔影像裡幾個像素，資料集又小又標註寬鬆。這篇記錄我用 YOLOv11 處理「小資料 + 小目標」雙重困境的過程，最後實驗結果是 yolo11n 的效果最好，但仍受限於小結節資料過少的限制。"
 date: "2026-06-25"
 categories: [電腦視覺, 物件偵測, 醫療影像, YOLO]
 image: "val_batch1_pred.jpg"
-toc: true
+format:
+  html:
+    toc: true
+    html-math-method: mathjax
 ---
 
 # 肺結節早期篩檢
