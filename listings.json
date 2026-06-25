@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/lung_nodule_detection/index.html",
       "/posts/kalman/index.html"
     ]
   }

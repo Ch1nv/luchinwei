@@ -10,7 +10,210 @@
 <atom:link href="https://ch1nv.github.io/luchinwei/index.xml" rel="self" type="application/rss+xml"/>
 <description>A blog built with Quarto</description>
 <generator>quarto-1.9.38</generator>
-<lastBuildDate>Sat, 20 Jun 2026 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Thu, 25 Jun 2026 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>當最小的模型反而最準：在 280 張影像上偵測肺結節</title>
+  <link>https://ch1nv.github.io/luchinwei/posts/lung_nodule_detection/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>ㄨ</p>
+<p>肺結節偵測是肺癌早期篩檢的關鍵一步——能不能在小病灶長大之前先把它找出來，往往就是預後的差別。但這件事在技術上有兩個疊在一起的難點，讓它不只是「再訓練一個 YOLO」這麼簡單。</p>
+<p>第一個難點是<strong>目標太小</strong>。結節依大小分兩類，其中 ≤3mm 的小結節在 416×416 的影像裡只佔幾個像素，經過偵測網路的下採樣之後，可能只剩下特徵圖上的一兩個格點。模型很難在這麼稀疏的資訊裡定位。</p>
+<p>第二個難點是<strong>資料又小又寬鬆</strong>。整個資料集只有約 280 張影像（訓練 239、驗證 41），而且小結節的樣本數本來就少——驗證集裡的小結節只有 8 個。另外，這份資料集的標註框得相當寬鬆，沒有精準貼合腫瘤邊界。</p>
+<p>所以真正的題目不是「偵測肺結節」，而是：<strong>在小資料、小目標、寬鬆標註這三個限制同時存在時，怎麼把偵測效果逼到合理範圍？</strong></p>
+<blockquote class="blockquote">
+<p>資料集：<a href="https://www.kaggle.com/datasets/younesselbrag/lung-nodules-detection-dataset-annotations/data">Lung Nodules Detection Dataset</a>（Youness El Brag, Kaggle） 影像尺寸 416×416；兩類別 <code>nodule ≥3mm</code>、<code>nodule &lt;3mm</code>；訓練 239 張、驗證 41 張。</p>
+</blockquote>
+<hr>
+<section id="針對小目標做的調整" class="level2">
+<h2 class="anchored" data-anchor-id="針對小目標做的調整">針對「小目標」做的調整</h2>
+<section id="把解析度放大" class="level3">
+<h3 class="anchored" data-anchor-id="把解析度放大">把解析度放大</h3>
+<p>我把原圖從 416×416 插值放大到 1280×1280。放大並沒有增加任何影像資訊——插值出來的像素都是內插的。它真正改變的是 YOLO 偵測頭特徵圖的空間密度。</p>
+<p>原本只佔幾個像素的小結節，在下採樣後可能對應不到幾個格點；放大之後，同一個結節能對應到更多特徵圖格點，模型就有更多空間線索去定位。換句話說，這是用「更密的特徵圖」去換「對小物件更容易對位」。</p>
+</section>
+<section id="學習率排程與正則化防止過擬合" class="level3">
+<h3 class="anchored" data-anchor-id="學習率排程與正則化防止過擬合">學習率排程與正則化，防止過擬合</h3>
+<p>小資料集最大的敵人是過擬合，所以訓練設定朝泛化能力調整：</p>
+<ul>
+<li>初始學習率 <code>lr0=0.003</code>，最終衰減到初始的 1%（<code>lrf=0.01</code>）——前期穩定收斂，後期細修。</li>
+<li>用 <strong>AdamW</strong> 搭配 <code>weight_decay=0.0005</code> 做正則化，壓制小資料集的過擬合傾向。</li>
+</ul>
+</section>
+<section id="資料增強在樣本稀少時硬擠出多樣性" class="level3">
+<h3 class="anchored" data-anchor-id="資料增強在樣本稀少時硬擠出多樣性">資料增強：在樣本稀少時硬擠出多樣性</h3>
+<p>既然樣本少，就讓每張影像在訓練時盡量「變多」：</p>
+<ul>
+<li><code>mosaic=1.0</code>：拼接多張影像，增加場景多樣性。</li>
+<li><code>mixup=0.2</code>：混合影像，提升泛化。</li>
+<li><code>copy_paste=0.3</code>：複製貼上標註物件，直接增加結節出現的次數。</li>
+<li><code>scale=0.5</code>：隨機縮放，適應不同大小的腫瘤。</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="小模型-nano-效果最好" class="level2">
+<h2 class="anchored" data-anchor-id="小模型-nano-效果最好">小模型 Nano 效果最好</h2>
+<p>調整完之後，我把 YOLOv11 的四種大小（Large / Medium / Small / Nano）都跑了一輪來比較。直覺上，大模型容量更大、應該更強。結果剛好相反：</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Overall mAP50-95</th>
+<th>≤3mm mAP50-95</th>
+<th>≤3mm mAP75</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>11l (Large)</td>
+<td>47.8%</td>
+<td>34.5%</td>
+<td>41.9%</td>
+</tr>
+<tr class="even">
+<td>11m (Medium)</td>
+<td>46.9%</td>
+<td>32.4%</td>
+<td>11.0%</td>
+</tr>
+<tr class="odd">
+<td>11s (Small)</td>
+<td>53.7%</td>
+<td>40.5%</td>
+<td>33.8%</td>
+</tr>
+<tr class="even">
+<td><strong>11n (Nano)</strong></td>
+<td><strong>65.4%</strong></td>
+<td><strong>57.5%</strong></td>
+<td><strong>56.8%</strong></td>
+</tr>
+</tbody>
+</table>
+<p>大模型（11l、11m）整體 mAP50-95 只有 46%～48%，反而是最小的 <strong>11n 拿到 65.4%</strong>，而且在最難的小結節上從 11s 的 40.5% 一路拉到 57.5%。</p>
+<p>合理的解釋是：<strong>這個資料集太小，大模型的容量沒地方發揮，只會去記訓練集的雜訊，於是過擬合；小模型容量受限，反而被迫學到比較通用的特徵，泛化更好。</strong> 這也呼應前面所有「防過擬合」的設定——在小資料的世界裡，「更大」常常不是「更好」，而選對模型大小，對小物件偵測的影響大到超乎預期。</p>
+<hr>
+</section>
+<section id="單一指標陷阱" class="level2">
+<h2 class="anchored" data-anchor-id="單一指標陷阱">單一指標陷阱</h2>
+<p>比較模型時還踩到一個值得記下來的坑。看上面的表格，11m 的小結節 <strong>mAP75 異常地低，只有 11%</strong>，乍看像是這個模型在小結節上整個崩掉。</p>
+<p>但同一個 11m 的小結節 mAP50-95 是 32.4%，其實跟 11l 同級，並沒有特別差。問題出在驗證集的小結節<strong>只有 8 個樣本</strong>——只算 mAP75 這種單一 IOU 門檻的指標時，幾個樣本的浮動就會把數字甩得很大；而 mAP50-95 是多個 IOU 門檻的平均，相對穩定得多。</p>
+<p>所以在這種小驗證集上，<strong>單一指標的數字不能盡信，要看跨門檻的平均</strong>，否則很容易因為一兩個樣本就對模型下錯結論。</p>
+<hr>
+</section>
+<section id="實務上寧可多抓也別放過" class="level2">
+<h2 class="anchored" data-anchor-id="實務上寧可多抓也別放過">實務上：寧可多抓，也別放過</h2>
+<p>選定 11n 之後，來看它的完整表現：</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Precision</th>
+<th>Recall</th>
+<th>mAP50</th>
+<th>mAP75</th>
+<th>mAP50-95</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>YOLOv11n</td>
+<td>85.4%</td>
+<td>89.7%</td>
+<td>89.8%</td>
+<td>73.2%</td>
+<td>65.4%</td>
+</tr>
+</tbody>
+</table>
+<p>分類別來看：</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Class</th>
+<th>Instances</th>
+<th>Precision</th>
+<th>Recall</th>
+<th>mAP50</th>
+<th>mAP75</th>
+<th>mAP50-95</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>all</td>
+<td>44</td>
+<td>85.4%</td>
+<td>89.7%</td>
+<td>89.8%</td>
+<td>73.2%</td>
+<td>65.4%</td>
+</tr>
+<tr class="even">
+<td>≥3mm</td>
+<td>36</td>
+<td>94.3%</td>
+<td>97.2%</td>
+<td>98.2%</td>
+<td>89.5%</td>
+<td>73.2%</td>
+</tr>
+<tr class="odd">
+<td>≤3mm</td>
+<td>8</td>
+<td>76.6%</td>
+<td>82.1%</td>
+<td>81.3%</td>
+<td>56.8%</td>
+<td>57.5%</td>
+</tr>
+</tbody>
+</table>
+<p>在癌症早篩的情境下，最不想發生的事是<strong>漏掉一個真的存在的病灶</strong>，所以我偏好把 Recall 顧好——Recall 89.7% 代表所有真實存在的結節中，模型抓出了將近九成。</p>
+<p>但這不是一味地疊高 Recall。Precision 仍維持在 85.4%，意思是模型標為結節的位置裡約 85% 確實是結節，誤報並沒有失控。在「不放過病灶」和「不要一直亂報」之間，這個模型站在一個我覺得對篩檢任務合理的位置。</p>
+<section id="detection-results" class="level3">
+<h3 class="anchored" data-anchor-id="detection-results">Detection Results</h3>
+<p align="center">
+<img src="https://ch1nv.github.io/luchinwei/posts/lung_nodule_detection/val_batch1_labels.jpg" width="45%"> <img src="https://ch1nv.github.io/luchinwei/posts/lung_nodule_detection/val_batch1_pred.jpg" width="45%">
+</p>
+<p align="center">
+<em>Ground Truth（左）vs Prediction（右）</em>
+</p>
+<hr>
+</section>
+</section>
+<section id="限制與後續方向" class="level2">
+<h2 class="anchored" data-anchor-id="限制與後續方向">限制與後續方向</h2>
+<p>這個模型在大結節上很穩（≥3mm 的 mAP50-95 有 73.2%），但<strong>小結節依然是弱點</strong>（57.5%）：</p>
+<ol type="1">
+<li><strong>標註寬鬆</strong>。模型學不到高 IOU 的精準定位。這正是小結節 mAP50（81.3%）和 mAP75（56.8%）落差這麼大的原因——找得到大概位置，但框不準。</li>
+<li><strong>樣本太少</strong>。驗證集只有 8 個小結節，指標的標準差會變大。</li>
+</ol>
+<p>還有一個細節值得記：在 11n 上，不論整體、大結節、小結節，Recall 都高於 Precision；而<strong>小結節的 Recall（82.1%）和 Precision（76.6%）差距達 5.5 個百分點</strong>，比整體（4.3）和大結節（2.9）都大。代表模型在小結節上「框錯」的情況相對更多，再次呼應了小結節難偵測、標註寬鬆、樣本少這幾件事。</p>
+<p>目前我用 <code>copy_paste</code> 做的是全域增加樣本，後續比較對的方向應該是：</p>
+<ul>
+<li><strong>單獨補小結節的資料</strong>，提高它的數量與佔比，而不是只靠全域增強。</li>
+<li><strong>嘗試能容忍寬鬆標註的訓練法</strong>，讓模型不被不精準的框邊界綁死。</li>
+</ul>
+<p>整體來說，這個模型在應用方向上是合理的，但小結節這塊我還沒解完——這也是我覺得這個專案最有意思的地方：它讓我看到在小資料的限制下，模型選擇、指標解讀、實務取捨各自該怎麼權衡，而不是把一個跑得動的 baseline 當成終點。</p>
+
+
+</section>
+
+ ]]></description>
+  <category>電腦視覺</category>
+  <category>物件偵測</category>
+  <category>醫療影像</category>
+  <category>YOLO</category>
+  <guid>https://ch1nv.github.io/luchinwei/posts/lung_nodule_detection/</guid>
+  <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+  <media:content url="https://ch1nv.github.io/luchinwei/posts/lung_nodule_detection/val_batch1_pred.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
   <title>卡爾曼濾波器在配對交易上的應用</title>
   <dc:creator>盧晉偉 </dc:creator>
