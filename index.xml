@@ -288,7 +288,20 @@
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
-<pre class="mermaid mermaid-js">flowchart TD
+<pre class="mermaid mermaid-js">%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "fontFamily": "Noto Sans TC, Microsoft JhengHei, sans-serif",
+    "primaryColor": "#ffffff",
+    "primaryTextColor": "#111827",
+    "primaryBorderColor": "#334155",
+    "lineColor": "#64748b",
+    "secondaryColor": "#f8fafc",
+    "tertiaryColor": "#ffffff"
+  }
+}}%%
+
+flowchart TD
   subgraph D["發現層：全台市集地圖"]
     map["React + Leaflet 地圖&lt;br/&gt;搜尋 / 篩選 / 看點位"]
     detail["市集詳情面板"]
@@ -310,6 +323,20 @@
   oa --&gt; rich
   rich --&gt; liff
   liff --&gt; dash
+
+  classDef normal fill:#ffffff,stroke:#334155,color:#111827,stroke-width:1.5px;
+  classDef bridge fill:#fff7ed,stroke:#ea580c,color:#111827,stroke-width:1.5px;
+  classDef app fill:#ecfdf5,stroke:#059669,color:#111827,stroke-width:1.5px;
+  classDef person fill:#eff6ff,stroke:#2563eb,color:#111827,stroke-width:1.5px;
+
+  class map,detail normal;
+  class oa,rich bridge;
+  class liff,dash app;
+  class user person;
+
+  style D fill:#f8fafc,stroke:#94a3b8,color:#111827
+  style BRIDGE fill:#fffaf0,stroke:#f97316,color:#111827
+  style V fill:#f0fdf4,stroke:#10b981,color:#111827
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -501,16 +528,12 @@ const profile = await liff.getProfile();
 <p>發現層回答「去哪裡」，現場層回答「到了之後怎麼逛」，而兩者之間的交棒刻意壓在 LINE 上，讓整段體驗不需要使用者下載任何東西。對活動、店家、地方社群這類產品來說，「先把資訊變得可探索、再無縫交棒到熟悉的入口」，往往就是產品真正開始長出來的地方。</p>
 
 
-<!-- -->
-
 </section>
 
  ]]></description>
-  <category>Side Project</category>
   <category>LINE LIFF</category>
   <category>React</category>
   <category>FastAPI</category>
-  <category>System Design</category>
   <guid>https://ch1nv.github.io/luchinwei/posts/market_map/</guid>
   <pubDate>Fri, 26 Jun 2026 00:00:00 GMT</pubDate>
 </item>
