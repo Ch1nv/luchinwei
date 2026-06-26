@@ -73,6 +73,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -217,11 +220,22 @@ ul.task-list li input[type="checkbox"] {
 </blockquote>
 <p>在這個專案裡，一篇 actionable review 指的是文字中包含以下任一種訊號：具體缺陷、功能缺口、使用限制，或任何產品團隊能據以改善的需求。情緒是哪一邊、被多少人按讚，都不在判準裡。</p>
 <p>定義清楚之後，整段研究路徑其實可以濃縮成一條線：</p>
-<pre class="mermaid"><code>flowchart TD
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
   A["補 Missing Rating（走錯）"] --&gt; B["研究 numHelpful（也不夠）"]
   B --&gt; C["重新定義：Actionable Review Mining"]
   C --&gt; D["DistilBERT student gate + Gemini extraction"]
-  D --&gt; E["Product digest / Issue trend"]</code></pre>
+  D --&gt; E["Product digest / Issue trend"]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 <p>Gemini 在這裡扮演 teacher 與抽取器，產出結構化欄位：</p>
 <table class="caption-top table">
 <thead>
@@ -254,12 +268,23 @@ ul.task-list li input[type="checkbox"] {
 <section id="為什麼是小模型把關-llm-抽取" class="level2">
 <h2 class="anchored" data-anchor-id="為什麼是小模型把關-llm-抽取">為什麼是「小模型把關 + LLM 抽取」</h2>
 <p>最終架構不是讓 DistilBERT 取代 LLM，而是讓兩者各做自己擅長的事：</p>
-<pre class="mermaid"><code>flowchart LR
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
   A["Amazon review body"] --&gt; B["Sentence-evidence DistilBERT gate"]
   B --&gt; C["Candidate reviews"]
   C --&gt; D["Gemini structured extraction"]
   D --&gt; E["Product issue digest"]
-  E --&gt; F["Issue trend analysis"]</code></pre>
+  E --&gt; F["Issue trend analysis"]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 <p>DistilBERT 便宜、穩定，負責從大量評論中快速篩掉明顯沒問題的那些，把候選量壓下來；Gemini 處理真正困難的部分——判斷模稜兩可的案例、寫出 issue summary、把證據片段對齊回原文。</p>
 <p>這樣分工的好處不只是省 LLM 成本，更是因為它比較像真實的產品分析流程：輸出不是一個分類分數，而是一批可以排序、彙整、追蹤的產品問題。</p>
 </section>

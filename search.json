@@ -25,14 +25,14 @@
     "href": "posts/amazon_product_reviews_alanysis/index.html#那可行動到底是什麼意思",
     "title": "差評不等於產品問題：從 Amazon 評論抽取有價值的產品建議",
     "section": "那「可行動」到底是什麼意思",
-    "text": "那「可行動」到底是什麼意思\n我把任務重新定義成 actionable review mining。要回答的問題不再是：\n\n這篇評論是好評還是差評？\n\n而是：\n\n這篇評論裡，有沒有產品團隊可以採取行動的具體問題？\n\n在這個專案裡，一篇 actionable review 指的是文字中包含以下任一種訊號：具體缺陷、功能缺口、使用限制，或任何產品團隊能據以改善的需求。情緒是哪一邊、被多少人按讚，都不在判準裡。\n定義清楚之後，整段研究路徑其實可以濃縮成一條線：\nflowchart TD\n  A[\"補 Missing Rating（走錯）\"] --&gt; B[\"研究 numHelpful（也不夠）\"]\n  B --&gt; C[\"重新定義：Actionable Review Mining\"]\n  C --&gt; D[\"DistilBERT student gate + Gemini extraction\"]\n  D --&gt; E[\"Product digest / Issue trend\"]\nGemini 在這裡扮演 teacher 與抽取器，產出結構化欄位：\n\n\n\nField\nMeaning\n\n\n\n\nactionable\n是否包含可行動的產品問題\n\n\naspect\n問題所屬面向\n\n\nissue_summary\n問題摘要\n\n\nevidence_span\n原評論中的證據片段\n\n\n\n這裡有一個我刻意守住的界線：這些欄位用來做 teacher label、證據驗證跟 digest（評估），但真正要部署的 DistilBERT student model，輸入永遠只有完整的 review body——不讀 rating、不讀 helpful votes、不讀產品名稱、不讀長度，也不讀任何 Gemini 抽出來的欄位。我要的是一個只看文字、就能判斷可行動性的 gate，而不是一個偷偷依賴 metadata 的模型。"
+    "text": "那「可行動」到底是什麼意思\n我把任務重新定義成 actionable review mining。要回答的問題不再是：\n\n這篇評論是好評還是差評？\n\n而是：\n\n這篇評論裡，有沒有產品團隊可以採取行動的具體問題？\n\n在這個專案裡，一篇 actionable review 指的是文字中包含以下任一種訊號：具體缺陷、功能缺口、使用限制，或任何產品團隊能據以改善的需求。情緒是哪一邊、被多少人按讚，都不在判準裡。\n定義清楚之後，整段研究路徑其實可以濃縮成一條線：\n\n\n\n\n\nflowchart TD\n  A[\"補 Missing Rating（走錯）\"] --&gt; B[\"研究 numHelpful（也不夠）\"]\n  B --&gt; C[\"重新定義：Actionable Review Mining\"]\n  C --&gt; D[\"DistilBERT student gate + Gemini extraction\"]\n  D --&gt; E[\"Product digest / Issue trend\"]\n\n\n\n\n\n\nGemini 在這裡扮演 teacher 與抽取器，產出結構化欄位：\n\n\n\nField\nMeaning\n\n\n\n\nactionable\n是否包含可行動的產品問題\n\n\naspect\n問題所屬面向\n\n\nissue_summary\n問題摘要\n\n\nevidence_span\n原評論中的證據片段\n\n\n\n這裡有一個我刻意守住的界線：這些欄位用來做 teacher label、證據驗證跟 digest（評估），但真正要部署的 DistilBERT student model，輸入永遠只有完整的 review body——不讀 rating、不讀 helpful votes、不讀產品名稱、不讀長度，也不讀任何 Gemini 抽出來的欄位。我要的是一個只看文字、就能判斷可行動性的 gate，而不是一個偷偷依賴 metadata 的模型。"
   },
   {
     "objectID": "posts/amazon_product_reviews_alanysis/index.html#為什麼是小模型把關-llm-抽取",
     "href": "posts/amazon_product_reviews_alanysis/index.html#為什麼是小模型把關-llm-抽取",
     "title": "差評不等於產品問題：從 Amazon 評論抽取有價值的產品建議",
     "section": "為什麼是「小模型把關 + LLM 抽取」",
-    "text": "為什麼是「小模型把關 + LLM 抽取」\n最終架構不是讓 DistilBERT 取代 LLM，而是讓兩者各做自己擅長的事：\nflowchart LR\n  A[\"Amazon review body\"] --&gt; B[\"Sentence-evidence DistilBERT gate\"]\n  B --&gt; C[\"Candidate reviews\"]\n  C --&gt; D[\"Gemini structured extraction\"]\n  D --&gt; E[\"Product issue digest\"]\n  E --&gt; F[\"Issue trend analysis\"]\nDistilBERT 便宜、穩定，負責從大量評論中快速篩掉明顯沒問題的那些，把候選量壓下來；Gemini 處理真正困難的部分——判斷模稜兩可的案例、寫出 issue summary、把證據片段對齊回原文。\n這樣分工的好處不只是省 LLM 成本，更是因為它比較像真實的產品分析流程：輸出不是一個分類分數，而是一批可以排序、彙整、追蹤的產品問題。"
+    "text": "為什麼是「小模型把關 + LLM 抽取」\n最終架構不是讓 DistilBERT 取代 LLM，而是讓兩者各做自己擅長的事：\n\n\n\n\n\nflowchart LR\n  A[\"Amazon review body\"] --&gt; B[\"Sentence-evidence DistilBERT gate\"]\n  B --&gt; C[\"Candidate reviews\"]\n  C --&gt; D[\"Gemini structured extraction\"]\n  D --&gt; E[\"Product issue digest\"]\n  E --&gt; F[\"Issue trend analysis\"]\n\n\n\n\n\n\nDistilBERT 便宜、穩定，負責從大量評論中快速篩掉明顯沒問題的那些，把候選量壓下來；Gemini 處理真正困難的部分——判斷模稜兩可的案例、寫出 issue summary、把證據片段對齊回原文。\n這樣分工的好處不只是省 LLM 成本，更是因為它比較像真實的產品分析流程：輸出不是一個分類分數，而是一批可以排序、彙整、追蹤的產品問題。"
   },
   {
     "objectID": "posts/amazon_product_reviews_alanysis/index.html#四個實驗回答四個不同的問題",
