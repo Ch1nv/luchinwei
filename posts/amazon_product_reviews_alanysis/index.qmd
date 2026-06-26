@@ -49,7 +49,7 @@ format:
 
 定義清楚之後，整段研究路徑其實可以濃縮成一條線：
 
-```mermaid
+```{mermaid}
 flowchart TD
   A["補 Missing Rating（走錯）"] --> B["研究 numHelpful（也不夠）"]
   B --> C["重新定義：Actionable Review Mining"]
@@ -72,7 +72,7 @@ Gemini 在這裡扮演 teacher 與抽取器，產出結構化欄位：
 
 最終架構不是讓 DistilBERT 取代 LLM，而是讓兩者各做自己擅長的事：
 
-```mermaid
+```{mermaid}
 flowchart LR
   A["Amazon review body"] --> B["Sentence-evidence DistilBERT gate"]
   B --> C["Candidate reviews"]
