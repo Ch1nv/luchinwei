@@ -39,6 +39,11 @@ format:
 ```{mermaid}
 %%{init: {
   "theme": "base",
+  "flowchart": {
+    "nodeSpacing": 50,
+    "rankSpacing": 80,
+    "diagramPadding": 20
+  },
   "themeVariables": {
     "fontFamily": "Noto Sans TC, Microsoft JhengHei, sans-serif",
     "primaryColor": "#ffffff",
@@ -50,23 +55,28 @@ format:
   }
 }}%%
 
-flowchart TD
+flowchart LR
+  user["使用者"]
+
   subgraph D["發現層：全台市集地圖"]
+    direction TB
     map["React + Leaflet 地圖<br/>搜尋 / 篩選 / 看點位"]
     detail["市集詳情面板"]
   end
 
   subgraph BRIDGE["連接點"]
+    direction TB
     oa["個別市集 LINE 官方帳號"]
     rich["Rich Menu"]
   end
 
-  subgraph V["現場層：個別市集活動 App"]
+  subgraph V["現場層：個別市集活動介面"]
+    direction TB
     liff["LIFF App<br/>活動 / 攤位 / 集點卡"]
     dash["主辦方數據後台"]
   end
 
-  user["使用者"] --> map
+  user --> map
   map --> detail
   detail -->|官方 LINE 按鈕| oa
   oa --> rich
