@@ -4,18 +4,13 @@ description: "這篇文章把兩個子專案——全台市集地圖與個別市
 author: "盧晉偉"
 date: "2026-06-26"
 categories:
-  - Side Project
   - LINE LIFF
   - React
   - FastAPI
-  - System Design
-lang: zh-Hant
 format:
   html:
     toc: true
-    toc-depth: 3
-    code-fold: true
-    code-tools: true
+    html-math-method: mathjax
 ---
 
 ## 這個專案在解什麼
@@ -42,6 +37,19 @@ format:
 兩層之間的交棒，不是「再開一個網站」，而是落在使用者本來就熟悉的入口——**LINE**。
 
 ```{mermaid}
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "fontFamily": "Noto Sans TC, Microsoft JhengHei, sans-serif",
+    "primaryColor": "#ffffff",
+    "primaryTextColor": "#111827",
+    "primaryBorderColor": "#334155",
+    "lineColor": "#64748b",
+    "secondaryColor": "#f8fafc",
+    "tertiaryColor": "#ffffff"
+  }
+}}%%
+
 flowchart TD
   subgraph D["發現層：全台市集地圖"]
     map["React + Leaflet 地圖<br/>搜尋 / 篩選 / 看點位"]
@@ -64,8 +72,21 @@ flowchart TD
   oa --> rich
   rich --> liff
   liff --> dash
-```
 
+  classDef normal fill:#ffffff,stroke:#334155,color:#111827,stroke-width:1.5px;
+  classDef bridge fill:#fff7ed,stroke:#ea580c,color:#111827,stroke-width:1.5px;
+  classDef app fill:#ecfdf5,stroke:#059669,color:#111827,stroke-width:1.5px;
+  classDef person fill:#eff6ff,stroke:#2563eb,color:#111827,stroke-width:1.5px;
+
+  class map,detail normal;
+  class oa,rich bridge;
+  class liff,dash app;
+  class user person;
+
+  style D fill:#f8fafc,stroke:#94a3b8,color:#111827
+  style BRIDGE fill:#fffaf0,stroke:#f97316,color:#111827
+  style V fill:#f0fdf4,stroke:#10b981,color:#111827
+```
 ## 連接點：從平台詳情走進個別市集的 LINE
 
 整個系統最重要的設計，就是這條交棒路徑：
