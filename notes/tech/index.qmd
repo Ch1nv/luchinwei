@@ -1,0 +1,17 @@
+---
+title: "Tech"
+listing:
+  contents:
+    - "*.qmd"
+    - "!index.qmd"
+  feed: true
+  sort: "date desc"
+  type: default
+  categories: true
+  sort-ui: false
+  filter-ui: true
+page-layout: full
+title-block-banner: true
+---
+
+技術筆記、資料分析、工具流程紀錄。

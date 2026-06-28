@@ -1,0 +1,8 @@
+---
+title: "Life"
+page-layout: full
+title-block-banner: true
+---
+
+日常紀錄、生活觀察、料理，以及一些不急著歸類的想法。
+

@@ -1,7 +1,7 @@
 ---
 title: "Kaggle CLI 控制 Notebook：本地寫、雲端跑、拉回結果"
 date: 2026-06-28
-categories: [kaggle, cli, notebook, machine-learning]
+categories: [tech, kaggle, cli, notebook, machine-learning]
 format:
   html:
     toc: true

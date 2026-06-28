@@ -1,0 +1,8 @@
+---
+title: "Games"
+page-layout: full
+title-block-banner: true
+---
+
+遊戲劇情、角色、系統設計與遊玩感受，偏心得也偏拆解。
+
