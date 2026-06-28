@@ -8,7 +8,7 @@
   {
     "listing": "/projects/index.html",
     "items": [
-      "/projects/amazon_product_reviews_alanysis/index.html",
+      "/projects/amazon_product_reviews_analysis/index.html",
       "/projects/market_map/index.html",
       "/projects/lung_nodule_detection/index.html",
       "/projects/kalman/index.html"
