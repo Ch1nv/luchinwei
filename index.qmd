@@ -39,7 +39,7 @@ title-block-banner: true
 </a>
 
 <a class="featured-card" href="projects/kalman/">
-<div class="featured-card-visual visual-kalman"><span>Kalman Filter</span></div>
+<img class="featured-card-image" src="projects/kalman/pepsi coca cola.jpg" alt="Kalman filter">
 <div class="featured-card-body">
 <p class="featured-card-kicker">Time Series / Quant</p>
 <h3>Kalman Filter 配對交易</h3>
