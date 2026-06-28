@@ -2,16 +2,16 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "CHIN-WEI, LU",
+    "title": "Hi, 這裡是晉偉的部落格",
     "section": "",
-    "text": "我是盧晉偉，這裡整理我在資料分析、電腦視覺、時間序列模型與 AI 應用開發上的作品與技術筆記。 若想要聯絡我，可以寫信到 lcw.shinni [at] gmail [dot] com。"
+    "text": "這裡放了一些完整的專案紀錄，以及零碎文章。\n若想要聯絡我，可以寫信到 lcw.shinni [at] gmail [dot] com。"
   },
   {
-    "objectID": "index.html#精選作品",
-    "href": "index.html#精選作品",
-    "title": "CHIN-WEI, LU",
-    "section": "精選作品",
-    "text": "精選作品\n\n\n\n\n\nNLP / LLM\nAmazon 評論分析\n把評論從情緒分類重新定義成 actionable review mining，結合 DistilBERT 與 Gemini 產出產品問題摘要。\n\n\n\n\n\n\nReact / LINE LIFF / FastAPI\n全台市集地圖平台\n串起市集探索、LINE 現場活動介面與主辦方營運數據，處理發現端與現場端的產品斷點。\n\n\n\n\n\n\nComputer Vision / YOLO\nYOLO 肺結節偵測\n在小資料集與小目標限制下訓練 YOLOv11，分析模型大小、資料增強與醫療影像偵測指標的取捨。\n\n\n\n\n\n\nTime Series / Quant\nKalman Filter 配對交易\n以狀態空間模型建立配對交易價差估計流程，並討論模型在劇烈變動時的延遲限制。"
+    "objectID": "index.html#精選文章",
+    "href": "index.html#精選文章",
+    "title": "Hi, 這裡是晉偉的部落格",
+    "section": "精選文章",
+    "text": "精選文章\n\n\n\n\n\nNLP / LLM\nAmazon 評論分析\n把評論從情緒分類重新定義成 actionable review mining，結合 DistilBERT 與 Gemini 產出產品問題摘要。\n\n\n\n\n\n\nReact / LINE LIFF / FastAPI\n全台市集地圖平台\n串起市集探索、LINE 現場活動介面與主辦方營運數據，處理發現端與現場端的產品斷點。\n\n\n\n\n\n\nComputer Vision / YOLO\nYOLO 肺結節偵測\n在小資料集與小目標限制下訓練 YOLOv11，分析模型大小、資料增強與醫療影像偵測指標的取捨。\n\n\n\n\n\n\nTime Series / Quant\nKalman Filter 配對交易\n以狀態空間模型建立配對交易價差估計流程，並討論模型在劇烈變動時的延遲限制。"
   },
   {
     "objectID": "projects/market_map/index.html",
@@ -123,7 +123,7 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "我是盧晉偉，成大應用數學所碩士，政大金融系學士。\n我關注資料分析、電腦視覺、時間序列模型與 AI 應用開發。\n過去的研究與專案包含 Kalman Filter 配對交易、YOLO 影像偵測、Amazon 評論分析，以及全台市集地圖平台。\n這個網站整理我的專案作品與日常技術筆記。\n若想聯絡我，可以寫信到 lcw.shinni [at] gmail [dot] com。"
+    "text": "我是晉偉，成大應用數學所碩士，政大金融系學士。\n我關注資料分析、電腦視覺、時間序列模型與 AI 應用開發。\n過去的研究與專案包含 Kalman Filter 配對交易、YOLO 影像偵測、Amazon 評論分析，以及全台市集地圖平台。\n這個網站整理我的專案作品與日常文章。\n若想聯絡我，可以寫信到 lcw.shinni [at] gmail [dot] com。"
   },
   {
     "objectID": "notes/life/index.html",
