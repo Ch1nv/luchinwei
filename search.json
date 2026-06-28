@@ -11,7 +11,7 @@
     "href": "index.html#精選作品",
     "title": "CHIN-WEI, LU",
     "section": "精選作品",
-    "text": "精選作品\n\n\n\nReview Mining\n\nNLP / LLM\nAmazon 評論分析\n把評論從情緒分類重新定義成 actionable review mining，結合 DistilBERT 與 Gemini 產出產品問題摘要。\n\n\n\n\n\n\nReact / LINE LIFF / FastAPI\n全台市集地圖平台\n串起市集探索、LINE 現場活動介面與主辦方營運數據，處理發現端與現場端的產品斷點。\n\n\n\n\n\n\nComputer Vision / YOLO\nYOLO 肺結節偵測\n在小資料集與小目標限制下訓練 YOLOv11，分析模型大小、資料增強與醫療影像偵測指標的取捨。\n\n\n\n\nKalman Filter\n\nTime Series / Quant\nKalman Filter 配對交易\n以狀態空間模型建立配對交易價差估計流程，並討論模型在劇烈變動時的延遲限制。"
+    "text": "精選作品\n\n\n\n\n\nNLP / LLM\nAmazon 評論分析\n把評論從情緒分類重新定義成 actionable review mining，結合 DistilBERT 與 Gemini 產出產品問題摘要。\n\n\n\n\n\n\nReact / LINE LIFF / FastAPI\n全台市集地圖平台\n串起市集探索、LINE 現場活動介面與主辦方營運數據，處理發現端與現場端的產品斷點。\n\n\n\n\n\n\nComputer Vision / YOLO\nYOLO 肺結節偵測\n在小資料集與小目標限制下訓練 YOLOv11，分析模型大小、資料增強與醫療影像偵測指標的取捨。\n\n\n\n\nKalman Filter\n\nTime Series / Quant\nKalman Filter 配對交易\n以狀態空間模型建立配對交易價差估計流程，並討論模型在劇烈變動時的延遲限制。"
   },
   {
     "objectID": "projects/market_map/index.html",
@@ -221,7 +221,7 @@
     "href": "projects/amazon_product_reviews_alanysis/index.html",
     "title": "差評不等於產品問題：從 Amazon 評論抽取有價值的產品建議",
     "section": "",
-    "text": "如果想用消費者留下的評論幫產品團隊找問題，最直覺的做法是：把評論分成好評跟差評，然後去看差評。我一開始也是這樣做的。但做到一半我發現，這個前提其實是錯的——差評不一定有具體問題，而好評裡反而常常藏著最該被處理的缺陷。\n這篇文章記錄的，我怎麼從「補 missing rating、看差評」這個直覺起點，一路把問題重新定義成 actionable review mining，最後做出一個 DistilBERT + Gemini 的兩階段 pipeline：小模型負責便宜地篩出候選評論，LLM 負責把它們抽成 aspect、issue_summary、evidence_span 這種產品團隊能直接讀的結構化 issue。\n真正花時間的不是訓練模型，而是想清楚一件事：我到底在找什麼。"
+    "text": "如果想用消費者留下的評論幫產品團隊找問題，最直覺的做法是：把評論分成好評跟差評，然後去看差評。我一開始也是這樣做的。但做到一半我發現，這個前提其實是錯的——差評不一定有具體問題，而好評裡反而常常藏著最該被處理的缺陷。\n這篇文章記錄的，我怎麼從「補 missing rating、看差評」這個直覺起點，一路把問題重新定義成 actionable review mining，最後做出一個 DistilBERT + Gemini 的兩階段 pipeline：小模型負責便宜地篩出候選評論，LLM 負責把它們抽成 aspect、issue_summary、evidence_span 這種產品團隊能直接讀的結構化 issue。\n真正花時間的不是訓練模型，而是想清楚一件事：我到底在找什麼。\n資料來源：Amazon Product Reviews Dataset"
   },
   {
     "objectID": "projects/amazon_product_reviews_alanysis/index.html#一開始把問題定義錯了",

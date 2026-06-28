@@ -195,10 +195,11 @@ ul.task-list li input[type="checkbox"] {
 <p>如果想用消費者留下的評論幫產品團隊找問題，最直覺的做法是：把評論分成好評跟差評，然後去看差評。我一開始也是這樣做的。但做到一半我發現，這個前提其實是錯的——<strong>差評不一定有具體問題，而好評裡反而常常藏著最該被處理的缺陷。</strong></p>
 <p>這篇文章記錄的，我怎麼從「補 missing rating、看差評」這個直覺起點，一路把問題重新定義成 <strong>actionable review mining</strong>，最後做出一個 DistilBERT + Gemini 的兩階段 pipeline：小模型負責便宜地篩出候選評論，LLM 負責把它們抽成 <code>aspect</code>、<code>issue_summary</code>、<code>evidence_span</code> 這種產品團隊能直接讀的結構化 issue。</p>
 <p>真正花時間的不是訓練模型，而是想清楚一件事：<strong>我到底在找什麼。</strong></p>
+<p>資料來源：<a href="https://www.kaggle.com/datasets/yasserh/amazon-product-reviews-dataset">Amazon Product Reviews Dataset</a></p>
 <section id="一開始把問題定義錯了" class="level2">
 <h2 class="anchored" data-anchor-id="一開始把問題定義錯了">一開始把問題定義錯了</h2>
 <p>最初我把這個任務想成兩步：先把缺失的星等補回來，再從負向評論裡找產品問題。聽起來很合理，於是我先處理 rating（星等）。</p>
-<p>原始資料有 1,597 筆評論，其中 420 筆缺 rating；去重後仍有 144 筆沒有星等。有趣的是，這些缺星等評論的文字長度中位數是 474 字元，幾乎是有星等評論（200 字元）的 2.4 倍——它們是寫得最長、內容最多的那一批。我用 TF-IDF + Logistic Regression、也試了 DistilBERT，想預測它們偏好評還是差評。</p>
+<p><a href="https://www.kaggle.com/datasets/yasserh/amazon-product-reviews-dataset">原始資料</a>有 1,597 筆評論，其中 420 筆缺 rating；去重後仍有 144 筆沒有星等。有趣的是，這些缺星等評論的文字長度中位數是 474 字元，幾乎是有星等評論（200 字元）的 2.4 倍——它們是寫得最長、內容最多的那一批。我用 TF-IDF + Logistic Regression、也試了 DistilBERT，想預測它們偏好評還是差評。</p>
 <p>但越做越覺得不對勁。很多長評論根本不是「正面」或「負面」可以概括的：有些整體給五星，正文卻列了一串缺點；有些通篇抱怨，最後一句還是推薦這個產品。<strong>rating 描述的是使用者對商品的整體態度，但「有沒有具體、可改善的問題」是另一回事。</strong> 我花力氣補出來的星等，並不會直接告訴我哪一篇值得產品團隊讀。</p>
 <p>那 helpful votes（點讚數） 呢？這是我試的第二個入口。直覺上，被很多人標 helpful 的評論應該比較值得看。我用 Gemini 標了 400 筆 actionable label （有具體建議的評論）來驗證這個假設：</p>
 <table class="caption-top table">
