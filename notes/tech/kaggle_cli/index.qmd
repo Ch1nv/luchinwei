@@ -298,7 +298,7 @@ data/         # 可以重新下載
 
 ## 一組可以複製貼上的日常指令
 
-把主流程濃縮成一段,改完 notebook 後從上到下跑一遍就是一輪:
+把主流程濃縮成一段，改完 notebook 後從上到下跑一遍就是一輪:
 
 ```powershell
 # 本機改完 notebook 後，推到 Kaggle 跑
@@ -317,12 +317,12 @@ kaggle competitions submit -c playground-series-s6e6 -f outputs\submission.csv -
 kaggle competitions submissions -c playground-series-s6e6
 ```
 
-## 幾個會省你時間的提醒
+## 小提醒
 
 最後是一些實際操作後才會體會到的小細節，先知道能少踩幾個坑：
 
 - `kaggle kernels push -p .` 永遠是讀「目前資料夾」的 `kernel-metadata.json` 來決定要推什麼、怎麼推。推之前先確認自己站在對的資料夾。
-- `status` 和 `output` 都要帶 `owner/kernel-slug`,也就是 notebook 網址裡的那兩段。記不住的話，打開 Kaggle 網頁看一眼網址最快。
+- `status` 和 `output` 都要帶 `owner/kernel-slug`，也就是 notebook 網址裡的那兩段。記不住的話，打開 Kaggle 網頁看一眼網址最快。
 - 如果你的 notebook 設成 private（`is_private: true`），用你自己的 token 可以正常存取，但別人拿他的 token 是看不到的。
 - `output` 抓不到東西時，先回去看 `status` 是不是真的 `COMPLETE`——還在 `RUNNING` 的時候當然沒結果可抓。
 - notebook 在雲端跑失敗時，先把 output 抓回來看 `.log`，或直接到網頁看執行紀錄，錯誤訊息幾乎都在那裡。
