@@ -175,6 +175,13 @@
     "text": "目前的 baseline 與接下來想試的\n第一版 baseline 用的是 HistGradientBoostingClassifier，前處理很單純：數值欄位用中位數補值，類別欄位用眾數補值並做 OrdinalEncoder 編碼：\n本地修改 notebook\n  -&gt; kaggle kernels push\n  -&gt; Kaggle 雲端執行\n  -&gt; kaggle kernels output 抓回 outputs/\n有了能動的管線之後，接下來想做的事，大致照優先順序：\n\n加入顏色差特徵（u-g, g-r, r-i, i-z）。\n把 redshift 在 GALAXY / QSO / STAR 之間的分布畫出來，驗證「高紅移 ≈ QSO」的猜測。\n建 confusion matrix，確認模型沒有偏向最大類別 GALAXY。\n\n再往上提分數，候選清單還有：換 LightGBM / XGBoost / CatBoost；對 redshift 做 log 轉換或 clipping；針對不平衡調 class weight 或決策門檻；以及把兩個類別欄位改成 one-hot，或乾脆用 CatBoost 原生的 categorical 處理。"
   },
   {
+    "objectID": "notes/reading/雪国/index.html",
+    "href": "notes/reading/雪国/index.html",
+    "title": "雪国　川端康成",
+    "section": "",
+    "text": "雪国　川端康成\n一開始讀這本小說時最大的想法是：為什麼每個段落之間有時候感覺很割裂？後來才明白，原來段落間的時間間隔是不固定的，有時段落間是接續著書寫，有時中間隔了一個晚上，或一、兩天，甚至一季或半年。習慣了這個默契後，讀起來就順暢多了。"
+  },
+  {
     "objectID": "notes/reading/index.html",
     "href": "notes/reading/index.html",
     "title": "Reading",
