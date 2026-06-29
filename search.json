@@ -130,14 +130,14 @@
     "href": "notes/life/index.html",
     "title": "Life",
     "section": "",
-    "text": "日常紀錄、生活觀察、料理，以及一些不急著歸類的想法。"
+    "text": "日常紀錄、生活觀察、料理，以及一些不急著歸類的想法。\n\n\n\n\n\n\n    \n      \n      \n    \n\n\n\n\nNo matching items"
   },
   {
     "objectID": "notes/tech/index.html",
     "href": "notes/tech/index.html",
     "title": "Tech",
     "section": "",
-    "text": "技術筆記、資料分析、工具流程紀錄。\n\n\n\n\n\n\n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\n從一張天文觀測表，分辨星系、類星體與恆星\n\n\nKaggle Playground Series S6E6 — Predicting Stellar Class 的主題、資料集與 EDA\n\n\n\nKaggle\n\nEDA\n\n天文\n\n機器學習\n\n\n\n用 SDSS 風格的測光與光譜特徵做三分類。這篇紀錄我對這份資料的觀察，以及第一版 baseline 之前的統計描述。\n\n\n\n\n\nJun 29, 2026\n\n\n盧晉偉\n\n\n\n\n\n\n\n\n\n\n\n\n把 Kaggle Notebook 當成 Git 專案:本地寫、雲端跑、拉回結果\n\n\n\n\n\n\ntech\n\nkaggle\n\ncli\n\nnotebook\n\nmachine-learning\n\n\n\n\n\n\n\n\n\nJun 28, 2026\n\n\n\n\n\nNo matching items"
+    "text": "技術筆記、資料分析、工具流程紀錄。\n\n\n\n\n\n\n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n從一張天文觀測表，分辨星系、類星體與恆星\n\n\nKaggle Playground Series S6E6 — Predicting Stellar Class 的主題、資料集與 EDA\n\n\n\nKaggle\n\nEDA\n\n天文\n\n機器學習\n\n\n\n用 SDSS 風格的測光與光譜特徵做三分類。這篇紀錄我對這份資料的觀察，以及第一版 baseline 之前的統計描述。\n\n\n\n\n\nJun 29, 2026\n\n\n盧晉偉\n\n\n\n\n\n\n\n\n\n\n\n\n把 Kaggle Notebook 當成 Git 專案:本地寫、雲端跑、拉回結果\n\n\n\n\n\n\ntech\n\nkaggle\n\ncli\n\nnotebook\n\nmachine-learning\n\n\n\n\n\n\n\n\n\nJun 28, 2026\n\n\n盧晉偉\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "notes/tech/kaggle_s6e6_intro/index.html",
@@ -186,7 +186,7 @@
     "href": "notes/reading/index.html",
     "title": "Reading",
     "section": "",
-    "text": "書、文章、影像作品或文本閱讀後留下的摘要、摘記與延伸想法。"
+    "text": "書、文章、影像作品或文本閱讀後留下的摘要、摘記與延伸想法。\n\n\n\n\n\n\n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n雪国　川端康成\n\n\n\n日文小說\n\n感想\n\n\n\n在沒有絕對時間概念下的段落裡，情緒被裁縫在了一起。\n\n\n\n\n\nJun 29, 2026\n\n\n盧晉偉\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "notes/tech/kaggle_cli/index.html",
@@ -277,7 +277,7 @@
     "href": "notes/games/index.html",
     "title": "Games",
     "section": "",
-    "text": "遊戲劇情、角色、系統設計與遊玩感受，偏心得也偏拆解。"
+    "text": "遊戲劇情、角色、系統設計與遊玩感受，偏心得也偏拆解。\n\n\n\n\n\n\n    \n      \n      \n    \n\n\n\n\nNo matching items"
   },
   {
     "objectID": "notes/index.html",

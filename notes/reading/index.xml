@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>CHIN-WEI, LU</title>
+<link>https://ch1nv.github.io/luchinwei/notes/reading/</link>
+<atom:link href="https://ch1nv.github.io/luchinwei/notes/reading/index.xml" rel="self" type="application/rss+xml"/>
+<description>A blog built with Quarto</description>
+<generator>quarto-1.9.38</generator>
+<lastBuildDate>Mon, 29 Jun 2026 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>雪国　川端康成</title>
+  <dc:creator>盧晉偉 </dc:creator>
+  <link>https://ch1nv.github.io/luchinwei/notes/reading/雪国/</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="雪国-川端康成" class="level1">
+<h1>雪国　川端康成</h1>
+<p>一開始讀這本小說時最大的想法是：為什麼每個段落之間有時候感覺很割裂？後來才明白，原來段落間的時間間隔是不固定的，有時段落間是接續著書寫，有時中間隔了一個晚上，或一、兩天，甚至一季或半年。習慣了這個默契後，讀起來就順暢多了。</p>
+
+
+</section>
+
+ ]]></description>
+  <category>日文小說</category>
+  <category>感想</category>
+  <guid>https://ch1nv.github.io/luchinwei/notes/reading/雪国/</guid>
+  <pubDate>Mon, 29 Jun 2026 00:00:00 GMT</pubDate>
+  <media:content url="https://ch1nv.github.io/luchinwei/notes/reading/雪国/Amazon.jpg" medium="image" type="image/jpeg"/>
+</item>
+</channel>
+</rss>

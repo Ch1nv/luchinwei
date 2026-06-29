@@ -1,10 +1,24 @@
 [
   {
+    "listing": "/notes/life/index.html",
+    "items": []
+  },
+  {
     "listing": "/notes/tech/index.html",
     "items": [
       "/notes/tech/kaggle_s6e6_intro/index.html",
       "/notes/tech/kaggle_cli/index.html"
     ]
+  },
+  {
+    "listing": "/notes/reading/index.html",
+    "items": [
+      "/notes/reading/雪国/index.html"
+    ]
+  },
+  {
+    "listing": "/notes/games/index.html",
+    "items": []
   },
   {
     "listing": "/projects/index.html",
