@@ -13,7 +13,7 @@ title-block-banner: true
 ```{=html}
 <div class="featured-grid">
 
-<a class="featured-card" href="projects/amazon_product_reviews_alanysis/">
+<a class="featured-card" href="projects/amazon_product_reviews_analysis/">
 <img class="featured-card-image" src="projects/amazon_product_reviews_analysis/Amazon.jpg" alt="Amazon 評論分析">
 <div class="featured-card-body">
 <p class="featured-card-kicker">NLP / LLM</p>
