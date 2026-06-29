@@ -1,8 +1,15 @@
 ---
 title: "Reading"
+listing:
+  contents: "*/index.*"
+  feed: true
+  sort: "date desc"
+  type: default
+  categories: true
+  sort-ui: false
+  filter-ui: true
 page-layout: full
 title-block-banner: true
 ---
 
 書、文章、影像作品或文本閱讀後留下的摘要、摘記與延伸想法。
-

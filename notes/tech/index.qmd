@@ -1,7 +1,7 @@
 ---
 title: "Tech"
 listing:
-  contents: "*/index.qmd"
+  contents: "*/index.*"
   feed: true
   sort: "date desc"
   type: default

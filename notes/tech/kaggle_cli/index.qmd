@@ -2,6 +2,7 @@
 title: "把 Kaggle Notebook 當成 Git 專案:本地寫、雲端跑、拉回結果"
 date: 2026-06-28
 categories: [tech, kaggle, cli, notebook, machine-learning]
+author: "盧晉偉"
 format:
   html:
     toc: true
