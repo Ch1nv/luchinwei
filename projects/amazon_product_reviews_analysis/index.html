@@ -240,6 +240,7 @@ window.Quarto = {
   <li><a href="#有了一堆有效評論後要如何總結建議" id="toc-有了一堆有效評論後要如何總結建議" class="nav-link" data-scroll-target="#有了一堆有效評論後要如何總結建議">有了一堆有效評論後，要如何總結建議？</a>
   <ul class="collapse">
   <li><a href="#月度提及率" id="toc-月度提及率" class="nav-link" data-scroll-target="#月度提及率">月度提及率</a></li>
+  <li><a href="#用-local-linear-trend-kalman-filter-估潛在趨勢" id="toc-用-local-linear-trend-kalman-filter-估潛在趨勢" class="nav-link" data-scroll-target="#用-local-linear-trend-kalman-filter-估潛在趨勢">用 local linear trend + Kalman filter 估潛在趨勢</a></li>
   </ul></li>
   <li><a href="#這個專案到底證明了什麼" id="toc-這個專案到底證明了什麼" class="nav-link" data-scroll-target="#這個專案到底證明了什麼">這個專案到底證明了什麼</a></li>
   </ul>
@@ -533,6 +534,20 @@ window.Quarto = {
 <li><span class="math inline">\(\text{raw\_rate}_t = \frac{y_t}{N_t}\)</span></li>
 </ul>
 <p>但我沒有直接拿 <span class="math inline">\(\text{raw\_rate}\)</span> 去判斷趨勢。每個月的評論總數差很多，有些月份某個 issue 的 count 甚至是 0，直接看比例會非常不穩定——一個月只有 3 篇評論、其中 1 篇提到音質，那個「33%」其實沒什麼意義。</p>
+<p>所以我先把比例轉成 <strong>empirical logit</strong>：</p>
+<p><span class="math display">\[
+z_t = \log\frac{y_t + 0.5}{N_t - y_t + 0.5}
+\]</span></p>
+<p>那個 <span class="math inline">\(+0.5\)</span> 是 continuity correction，用來避免 <span class="math inline">\(y_t = 0\)</span> 時 log 算不出來。轉成 log-odds 之後，數值不再被卡在 0 到 1 之間，比較適合接下來的線性高斯模型處理。</p>
+</section>
+<section id="用-local-linear-trend-kalman-filter-估潛在趨勢" class="level3">
+<h3 class="anchored" data-anchor-id="用-local-linear-trend-kalman-filter-估潛在趨勢">用 local linear trend + Kalman filter 估潛在趨勢</h3>
+<p>我假設每個 issue 背後都有一條看不見的「真實提及率趨勢」，由兩個潛在狀態組成：</p>
+<p><span class="math display">\[
+x_t = \begin{bmatrix} \mu_t \\ \beta_t \end{bmatrix}
+\]</span></p>
+<p><span class="math inline">\(\mu_t\)</span> 是這個 issue 目前提及率的高低（level），<span class="math inline">\(\beta_t\)</span> 是它正在上升還是下降（slope）。Kalman filter 的工作就是：每多看一個月的資料，就更新一次對 <span class="math inline">\(\mu_t\)</span> 和 <span class="math inline">\(\beta_t\)</span> 的估計。</p>
+<p>這比單純比較「這個月有沒有比上個月高」穩健得多，因為 Kalman filter 會同時權衡過去月份累積的趨勢、當月評論數多寡、當月觀測的不確定性，以及這個單月跳動到底是真訊號還是雜訊。當某個月評論數很少，它的 observation variance 會比較大，這個月對趨勢的影響就被自動調低——這正是我要的：樣本太少的月份，不該主導整體判斷。</p>
 </section>
 </section>
 <section id="這個專案到底證明了什麼" class="level2">

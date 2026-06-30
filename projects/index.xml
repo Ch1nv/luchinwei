@@ -302,6 +302,16 @@
 <li><img src="https://latex.codecogs.com/png.latex?%5Ctext%7Braw%5C_rate%7D_t%20=%20%5Cfrac%7By_t%7D%7BN_t%7D"></li>
 </ul>
 <p>但我沒有直接拿 <img src="https://latex.codecogs.com/png.latex?%5Ctext%7Braw%5C_rate%7D"> 去判斷趨勢。每個月的評論總數差很多，有些月份某個 issue 的 count 甚至是 0，直接看比例會非常不穩定——一個月只有 3 篇評論、其中 1 篇提到音質，那個「33%」其實沒什麼意義。</p>
+<p>所以我先把比例轉成 <strong>empirical logit</strong>：</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0Az_t%20=%20%5Clog%5Cfrac%7By_t%20+%200.5%7D%7BN_t%20-%20y_t%20+%200.5%7D%0A"></p>
+<p>那個 <img src="https://latex.codecogs.com/png.latex?+0.5"> 是 continuity correction，用來避免 <img src="https://latex.codecogs.com/png.latex?y_t%20=%200"> 時 log 算不出來。轉成 log-odds 之後，數值不再被卡在 0 到 1 之間，比較適合接下來的線性高斯模型處理。</p>
+</section>
+<section id="用-local-linear-trend-kalman-filter-估潛在趨勢" class="level3">
+<h3 class="anchored" data-anchor-id="用-local-linear-trend-kalman-filter-估潛在趨勢">用 local linear trend + Kalman filter 估潛在趨勢</h3>
+<p>我假設每個 issue 背後都有一條看不見的「真實提及率趨勢」，由兩個潛在狀態組成：</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0Ax_t%20=%20%5Cbegin%7Bbmatrix%7D%20%5Cmu_t%20%5C%5C%20%5Cbeta_t%20%5Cend%7Bbmatrix%7D%0A"></p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cmu_t"> 是這個 issue 目前提及率的高低（level），<img src="https://latex.codecogs.com/png.latex?%5Cbeta_t"> 是它正在上升還是下降（slope）。Kalman filter 的工作就是：每多看一個月的資料，就更新一次對 <img src="https://latex.codecogs.com/png.latex?%5Cmu_t"> 和 <img src="https://latex.codecogs.com/png.latex?%5Cbeta_t"> 的估計。</p>
+<p>這比單純比較「這個月有沒有比上個月高」穩健得多，因為 Kalman filter 會同時權衡過去月份累積的趨勢、當月評論數多寡、當月觀測的不確定性，以及這個單月跳動到底是真訊號還是雜訊。當某個月評論數很少，它的 observation variance 會比較大，這個月對趨勢的影響就被自動調低——這正是我要的：樣本太少的月份，不該主導整體判斷。</p>
 </section>
 </section>
 <section id="這個專案到底證明了什麼" class="level2">
